@@ -1,0 +1,46 @@
+.order{
+    display: flex;
+    justify-content: space-around;
+    min-height: 300px;
+    max-width: 70%;
+    background-color: yellow;
+}
+
+.order-container{
+    width: 300px;
+}
+.order-container h1{
+    margin-top: 40px;
+}
+.order-container button{
+    margin-top: 20px;
+    margin-left: 30px;
+    padding: 10px 30px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+.order-container button:hover{
+    background-color: #45a049;
+}
+h1{
+    font-size: 40px;
+}
+p{
+    margin-top: 20px;
+}
+.para{
+    font-size: 20px;
+}
+.book{
+    margin-top: 60px;
+}
+.book img{
+  
+    width: 350px;
+    height: auto;
+}

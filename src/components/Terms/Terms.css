@@ -1,0 +1,68 @@
+/* Container for the entire terms section */
+.terms-container {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+ 
+    align-items: flex-start;
+  }
+  
+  /* Button styles */
+  .terms-button {
+    background-color: #007bff;
+    
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+  
+  .terms-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Button container */
+  .btn {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Refund policy styles */
+  .refund {
+    margin-left: 10px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  /* Initially hide the terms content */
+  .terms-content {
+    display: none;
+    margin-top: 20px;
+    font-size: 16px;
+    line-height: 1.6;
+    max-height: 500px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+  }
+  
+  /* When terms are open, show content */
+  .terms-content.open {
+    display: block;
+    max-height: 5000px; /* This ensures the content expands fully */
+  }
+  
+  /* Add spacing to the terms content */
+  .terms-content p {
+    margin: 10px 10px;
+    max-width: 70%;
+    text-align: justify;
+    line-height: 30px;
+    letter-spacing: 1px;
+    font-size: 20px;
+  }
+  

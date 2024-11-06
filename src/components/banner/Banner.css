@@ -1,0 +1,232 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  gap: 20px;
+
+  flex-wrap: wrap;
+  margin-top: 100px;
+  max-width: 70%;
+  
+}
+
+.banner {
+  flex: 1;
+  background-size: cover;
+  background-position: center;
+  background-color: tomato;
+  height: 400px; /* Adjust the height as needed */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+ .banner-container {
+  position: relative;
+  
+} 
+
+.banner-container img {
+  max-width: 350px;
+  max-height: 350px;
+  position: absolute;
+  right: -180px;
+  top: -100px;
+  transform: translate(50%);
+
+}
+.banner-container .btn {
+  background-color: #068035ab;
+  color: white;
+  margin-right: 50px;
+  height: 30px;
+  width: 20px;
+  border-radius: 50%;
+
+}
+.btn-container .btn {
+  background-color: rgb(6, 126, 52);
+  margin-left: 60px;
+  margin-top: 80px;
+  color: white;
+  height: 30px;
+  width: 20px;
+  border-radius: 50%;
+
+}
+
+
+
+.shop-container {
+  display: flex;
+  justify-content: space-around;
+  margin-left: 400px;
+  
+}
+
+.shop h2 {
+  margin-bottom: 20px;
+  color: rgba(255, 166, 0, 0.753);
+}
+
+.shop h1 {
+  font-weight: bold;
+  font-size: 35px;
+}
+
+.shop p {
+  margin-top: 15px;
+
+}
+
+
+.shop button {
+  padding: 10px 20px;
+  background-color: #49b908;
+  color: white;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+  margin-top: 23px;
+}
+
+.shop button:hover {
+  background-color: #ff383d;
+}
+
+
+
+.btn {
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Payment Form Styles */
+.form-container { 
+  position: fixed; 
+  width: 400px;
+  min-height: 400px;
+  right: 0;
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+  z-index: 1000;
+}
+
+.form-heading {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-label {
+  display: block;
+  font-size: 14px;
+  color: #333;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.form-input:focus {
+  border-color: #ff5a5f;
+  outline: none;
+}
+
+.error-message {
+  font-size: 12px;
+  color: red;
+  margin-top: 5px;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #073883;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background-color 0.6s;
+}
+
+.submit-button:hover {
+  background-color: #6d38ff56;
+}
+
+.box-container{
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+
+}
+.box1{
+  height: 50px;
+  width: 50px;
+  background-image: url('/images/visa.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-color: #49b908;
+  border-radius: 50%;
+}
+.box2{
+  height: 50px;
+  width: 50px;
+  background-image: url('/images/gpay.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-color: #49b908;
+  border-radius: 50%;
+}
+.box3{
+  height: 50px;
+  width: 50px;
+  background-image: url('/images/phonepay.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-color: #49b908;
+  border-radius: 50%;
+}
+.box4{
+  height: 50px;
+  width: 50px;
+  background-image: url('/images/mastercard.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-color: #49b908;
+  border-radius: 50%;
+}
+.box5{
+  height: 50px;
+  width: 50px;
+  background-image: url('/images/paytm.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-color: #49b908;
+  border-radius: 50%;
+}
+.pay p {
+  text-align: center;
+}
+

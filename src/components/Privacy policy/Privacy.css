@@ -1,0 +1,45 @@
+.privacy-container {
+    padding: 20px;
+    width: 70%;
+  }
+  
+  .privacy-btn {
+    margin-bottom: 10px;
+  }
+  
+  .privacy-button {
+    background-color: #4CAF50; 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+  
+  .privacy-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+  }
+  
+  .privacy-content {
+    display: none;
+    margin-top: 15px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .privacy-content.open {
+    display: block;
+  }
+  .privacy-content p{
+    font-size: 20px;
+    max-width:70%;
+    text-align: justify;
+    line-height: 30px;
+    letter-spacing: 1px;
+  }
+  
