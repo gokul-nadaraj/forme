@@ -1,81 +1,125 @@
-
-
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import image1 from '/images/image21.png';
-import logo from '/images/multibook.png'
-
 import image2 from '/images/image22.png';
 import image3 from '/images/image23.png';
-
+import logo from '/images/multibook.png';
 import './Banner.css';
 
 const Banner = () => {
-  const images = [image1, image2, image3]; // Array of images
-  const [currentIndex, setCurrentIndex] = useState(0); // State to track the current image index
-  const [fade, setFade] = useState(false); // State to manage fade effect
+  const images = [image1, image2, image3];
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [fade, setFade] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
+  const [errors, setErrors] = useState({});
+  const [isMobile, setIsMobile] = useState(false); // Track if the screen width is less than 992px
 
-  // Function to go to the previous image
+  const [showForm, setShowForm] = useState(false); // Track if the form is shown on mobile
+
+
+  // Slide navigation handlers
   const handlePrevious = () => {
     setFade(true);
     setTimeout(() => {
-      setCurrentIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
+      setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
       setFade(false);
-    }, 300); // Adjust the timeout to match the transition duration
+    }, 300);
   };
-  // Function to go to the next image
+
   const handleNext = () => {
     setFade(true);
     setTimeout(() => {
-      setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
+      setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
       setFade(false);
-    }, 300); // Adjust the timeout to match the transition duration
-  }
-  const initialFormData = { name: '', email: '', phone: '' };
-  const [formData, setFormData] = useState(initialFormData);
-  const [errors, setErrors] = useState({ name: '', email: '', phone: '' });
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-
-    // Basic validation: check if the input is empty
-    setErrors({
-      ...errors,
-      [name]: value.trim() === '' ? `${name.charAt(0).toUpperCase() + name.slice(1)} is required.` : ''
-    });
+    }, 300);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  // Form change handler
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({
+      ...prev,
+      [name]: value.trim() ? '' : `${name.charAt(0).toUpperCase() + name.slice(1)} is required.`,
+    }));
+  };
 
-    // Check if any field is empty
+  // Form submit handler
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const newErrors = {};
     Object.keys(formData).forEach((field) => {
-      if (formData[field].trim() === '') {
+      if (!formData[field].trim()) {
         newErrors[field] = `${field.charAt(0).toUpperCase() + field.slice(1)} is required.`;
       }
     });
     setErrors(newErrors);
 
-    // If no errors, submit the form
-    if (Object.keys(newErrors).length === 0) {
-      alert('Payment submitted successfully!');
-      
-      // Reset form data and errors to refresh the form
-      setFormData(initialFormData);
-      setErrors({ name: '', email: '', phone: '' });
-    } else {
-      alert('Please fill in all required fields.');
+    if (!Object.keys(newErrors).length) {
+      await paymentHandler();
     }
   };
 
+  const handleBuyNowClick = () => {
+    setShowForm(!showForm); // Toggle form visibility
+    if (!showForm) {
+      document.body.classList.add('show-overlay'); // Add overlay class to body
+    } else {
+      document.body.classList.remove('show-overlay'); // Remove overlay class when form is hidden
+    }
+  };
+  
+  useEffect(() => {
+    const checkWidth = () => {
+      setIsMobile(window.innerWidth < 992);
+    };
+
+    checkWidth(); // Check width on initial load
+    window.addEventListener('resize', checkWidth); // Add listener for window resize
+
+    return () => {
+      window.removeEventListener('resize', checkWidth); // Cleanup the listener on component unmount
+    };
+  }, []);
+
+  // Payment handler
+  const paymentHandler = async () => {
+    try {
+      const orderbody = { amount: 1000, currency: 'INR', receipt: 'receiptId_1' };
+      const headers = {
+        'Content-Type': 'application/json',
+        'x-api-key': 'nb7yqBXPNZ8RDEsa0s7sS8OxEn9bujNV1c1VK3vc',
+      };
+      const response = await axios.post("https://178sjvr7ai.execute-api.ap-south-1.amazonaws.com/order", orderbody, { headers });
+      const order = response.data;
+
+      const options = {
+        key: '',
+        amount: orderbody.amount,
+        currency: orderbody.currency,
+        name: "Your Business Name",
+        order_id: order.id,
+        handler: async (response) => {
+          await axios.post("https://178sjvr7ai.execute-api.ap-south-1.amazonaws.com/order/validate", response, { headers });
+          alert("Payment successful!");
+        },
+        prefill: { name: formData.name, email: formData.email, contact: formData.phone },
+        theme: { color: "#3399cc" },
+      };
+
+      const rzp1 = new Razorpay(options);
+      rzp1.open();
+    } catch (error) {
+      console.error("Payment initiation failed:", error);
+      alert("Failed to initiate payment. Please try again.");
+    }
+  };
 
   return (
-    
-    <div className='container'>
-    <div
+    <div className="container">
+      <div
       className={`banner ${fade ? 'fade' : ''}`}
       style={{
         backgroundImage: `url(${images[currentIndex]})`,
@@ -100,80 +144,96 @@ const Banner = () => {
                           
       </div>
     </div>
-    <div className="form-container">
-      <h2 className="form-heading">Payment Form</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="name" className="form-label">Name</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            className="form-input"
-          />
-          <p className="error-message">{errors.name}</p>
-        </div>
-        <div className="form-group">
-          <label htmlFor="email" className="form-label">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="form-input"
-          />
-          <p className="error-message">{errors.email}</p>
-        </div>
-        <div className="form-group">
-          <label htmlFor="phone" className="form-label">Phone</label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            required
-            className="form-input"
-          />
-          <p className="error-message">{errors.phone}</p>
-        </div>
-        <button type="submit" className="submit-button">
-          BUY NOW
-        </button>
-      </form>
-      <div className='pay'>
-        <p>Guaranteed safe & secure payment</p>
 
-      </div>
-      <div className='box-container'>
-      <div className='box1'><img src="" alt="" /></div>
-      <div className='box2'><img src="" alt="" /></div>
-      <div className='box3'><img src="" alt="" /></div>
-      <div className='box4'><img src="" alt="" /></div>
-      <div className='box5'><img src="" alt="" /></div>
+{/* Mobile */}
+  <div className="form-container">
+        <h2 className="form-heading">Payment Form</h2>
+        {isMobile && (
+  <button onClick={handleBuyNowClick} className="buy-now-toggle">
+    {showForm ? 'Hide Payment Form' : 'Show Payment Form'}
+  </button>
+)}
+
+<div className={`form-container ${showForm ? 'show-form' : ''}`}>
+ 
+
+  {isMobile && showForm && (
+  <div className="overlay"></div> // This is the overlay that will cover the rest of the page
+)}
+
+{isMobile && showForm && (
+  <div className="form-container show-form">
+    <h2 className="form-heading">Payment Form</h2>
+    <form onSubmit={handleSubmit}>
+      {['name', 'email', 'phone'].map((field) => (
+        <div key={field} className="form-class">
+          <label htmlFor={field} className="form-label">
+            {field.charAt(0).toUpperCase() + field.slice(1)}
+          </label>
+          <input
+            type={field === 'email' ? 'email' : 'text'}
+            id={field}
+            name={field}
+            value={formData[field]}
+            onChange={handleChange}
+            required
+            className="form-input"
+          />
+          <p className="error-message">{errors[field]}</p>
+        </div>
+      ))}
+      <button type="submit" className="submit-button">BUY NOW</button>
+    </form>
+  </div>
+)}
+
+{/* desktop */}
+{!isMobile && (
+  <form onSubmit={handleSubmit} className="form-container1">
+    <div className="form-left">
+      {['name', 'email', 'phone'].map((field) => (
+        <div key={field} className="form-group">
+          <label htmlFor={field} className="form-label">
+            {field.charAt(0).toUpperCase() + field.slice(1)}
+          </label>
+          <input
+            type={field === 'email' ? 'email' : 'text'}
+            id={field}
+            name={field}
+            value={formData[field]}
+            onChange={handleChange}
+            required
+            className="form-input"
+          />
+          <p className="error-message">{errors[field]}</p>
+        </div>
+      ))}
+      <button type="submit" className="submit-button">BUY NOW</button>
+    </div>
+
+    <div className="form-right">
+      <div className="box-container">
+        {[1, 2, 3, 4, 5].map((i) => (
+          <div key={i} className={`box${i}`}>
+            <img src="" alt={`Payment Option ${i}`} />
+          </div>
+        ))}
       </div>
     </div>
-</div>
+  </form>
+)}
 
+        
+       
+        {isMobile && (
+        <button onClick={handleBuyNowClick} className="buy-now-toggle">
+          {showForm ? 'Hide Payment Form' : 'Show Payment Form'}
+        </button>
+      )}
+      </div>
+    </div>
+    </div>
   );
 };
 
 export default Banner;
-
-
-
-
-
-
-
-
-
-
-
-
-

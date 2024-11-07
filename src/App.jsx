@@ -10,7 +10,6 @@ import Testimonials from './components/Testimonils/Testimonils';
 import { Faq } from './components/Faq/Faq';
 import Terms from './components/Terms/Terms';
 import Privacy from './components/Privacy policy/Privacy';
-
 const App = () => {
   return (
     <div>
@@ -18,13 +17,13 @@ const App = () => {
 <Navbar/>
 <Banner/>
    <Order/>
-   {/* <Delivery/> */}
+
    <Customers/>
    <Testimonials/>
-   <Faq/>
-   <Terms/>
-   <Privacy/>
-   <Footer/>
+   {/* <Faq/> */}
+   {/* <Terms/> */}
+   {/* <Privacy/> */}
+   {/* <Footer/> */}
     </div>
   )
 }
